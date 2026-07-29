@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#FAFAF8;--surface:#FFFFFF;--ink:#131419;--muted:#585E68;--faint:#8A909A;
+    --bg:#FAFAF8;--surface:#FFFFFF;--ink:#131419;--muted:#585E68;--faint:#676D77;
     --line:#E6E4DE;--line-2:#D6D4CC;
     --accent:#1B3DF5;--accent-deep:#1430C4;--wash:rgba(27,61,245,.06);--wash2:rgba(27,61,245,.12);
     --r:16px;--maxw:1120px;--ease:cubic-bezier(.16,.84,.36,1);
@@ -330,13 +330,13 @@
 .cv-sec > h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#1B3DF5;font-weight:700;margin:0 0 4px;padding-bottom:10px;border-bottom:1px solid #E6E4DE}
 .cv-item{margin-top:26px}
 .cv-item h3{font-size:18.5px;margin:0 0 2px}
-.cv-when{font-size:13.5px;color:#8A909A;margin:0 0 12px}
+.cv-when{font-size:13.5px;color:#676D77;margin:0 0 12px}
 .cv-item ul{margin:0;padding-left:19px}
 .cv-item li{margin-bottom:7px;max-width:78ch;font-size:15.5px}
 .cv-item > p{max-width:80ch;font-size:15.5px}
 .cv-note{font-size:14px;color:#585E68;max-width:80ch;margin-top:12px}
 .cv-skill{margin-top:16px;font-size:15.5px;max-width:82ch}
-.cv-skill b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8A909A;margin-bottom:4px}
+.cv-skill b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676D77;margin-bottom:4px}
 .cv-two{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 @media(max-width:720px){.cv-two{grid-template-columns:1fr}}
 
@@ -356,12 +356,12 @@
 @media(max-width:640px){.cvtop{grid-template-columns:1fr;gap:16px}.cvtop img{width:104px;height:118px}}
 
 .lensbar{margin-top:42px;padding-top:26px;border-top:1px solid var(--line)}
-.lensbar h4{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#8A909A;font-weight:700;margin:0 0 12px}
+.lensbar h4{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#676D77;font-weight:700;margin:0 0 12px}
 .lenses{display:flex;flex-wrap:wrap;gap:9px}
 .lens{appearance:none;font:inherit;font-size:14px;font-weight:600;padding:9px 15px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:#585E68;cursor:pointer;transition:.15s}
 .lens:hover{border-color:#1B3DF5;color:#131419}
 .lens[aria-pressed="true"]{background:#131419;border-color:#131419;color:#fff}
-.lenshint{font-size:14px;color:#8A909A;margin:14px 0 0;min-height:1.4em}
+.lenshint{font-size:14px;color:#676D77;margin:14px 0 0;min-height:1.4em}
 
 .matrix{margin-top:34px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .matrix table{border-collapse:collapse;font-size:13.5px;min-width:560px;width:100%}
@@ -390,10 +390,10 @@
 .tlitem.dim li.hit{font-weight:400}
 .tlitem.dim li.hit::marker{color:#9AA0A8}
 .tlitem.dim .tag{background:#F4F3EF;color:#6A717C}
-.tlitem.dim .tag.on{background:#8A909A;color:#fff}
+.tlitem.dim .tag.on{background:#676D77;color:#fff}
 .tlwhen{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:#1B3DF5;font-weight:700;margin:0 0 5px}
 .tlitem h3{font-size:19px;margin:0 0 3px}
-.tlorg{font-size:14.5px;color:#8A909A;margin:0 0 12px}
+.tlorg{font-size:14.5px;color:#676D77;margin:0 0 12px}
 .tlitem ul{margin:0;padding-left:19px}
 .tlitem li{margin-bottom:7px;font-size:15.5px;max-width:76ch}
 .tlitem li.hit{font-weight:600}
@@ -407,7 +407,7 @@
 .det{display:none;margin-top:10px}
 .det.open{display:block}
 .cvfacts{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;padding-top:26px;border-top:1px solid var(--line)}
-.cvfact b{display:block;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:#8A909A;margin-bottom:5px}
+.cvfact b{display:block;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:#676D77;margin-bottom:5px}
 .cvfact span{font-size:15px}
 
 .catgrid{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 8px}
@@ -425,13 +425,14 @@
 .drvb{appearance:none;font:inherit;font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:#585E68;cursor:pointer;text-align:left;transition:.15s}
 .drvb:hover{border-color:#1B3DF5;color:#131419}
 .drvb[aria-pressed="true"]{background:#131419;border-color:#131419;color:#fff}
-.drvb .hz{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.6;display:block}
+.drvb .hz{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#696C72;display:block}
+.drvb[aria-pressed="true"] .hz{color:#D8DADE}
 .drvpanel{margin-top:22px;border:1px solid var(--line);border-radius:16px;padding-top:22px;padding-bottom:22px;padding-left:22px;padding-right:22px;background:#fff}
 .drvpanel h3{font-size:21px;margin:0 0 4px}
 .drvpanel .conc{font-size:15.5px;color:#585E68;max-width:74ch;margin:0 0 18px}
 .drvcols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 @media(max-width:760px){.drvcols{grid-template-columns:1fr;gap:20px}}
-.drvcols h5{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:#8A909A;font-weight:700;margin:0 0 10px}
+.drvcols h5{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:#676D77;font-weight:700;margin:0 0 10px}
 .alg{font-size:14px;line-height:1.55;margin:0;padding:0;list-style:none}
 .alg li{padding:6px 0;border-bottom:1px solid #F1F0EC;display:flex;gap:10px}
 .alg b{flex:0 0 44%;font-weight:600;color:#131419}
@@ -446,7 +447,7 @@
 .pipe{margin:22px 0 6px;display:flex;flex-direction:column;gap:0}
 .prow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:12px 0;border-bottom:1px solid #F1F0EC}
 .prow:last-child{border-bottom:0}
-.plab{flex:0 0 132px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A909A;font-weight:700}
+.plab{flex:0 0 132px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#676D77;font-weight:700}
 .nd{font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:8px;background:#F1F0EC;color:#585E68;white-space:nowrap}
 .nd.ai{background:#EDEBFF;color:#3A2FA8}
 .nd.gate{background:#131419;color:#fff}
@@ -460,15 +461,15 @@
 .verd .k{color:#8FB3FF}.verd .s{color:#B8E0A8}.verd .n{color:#F0C674}
 
 .chatdemo{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:18px 0;max-width:560px;background:#fff}
-.chatdemo .bar{background:#F7F6F2;padding:10px 14px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#8A909A;font-weight:700;border-bottom:1px solid var(--line)}
+.chatdemo .bar{background:#F7F6F2;padding:10px 14px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#676D77;font-weight:700;border-bottom:1px solid var(--line)}
 .chatdemo .msgs{padding-top:14px;padding-bottom:14px;padding-left:14px;padding-right:14px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:88%;font-size:14.5px;line-height:1.5;padding:10px 13px;border-radius:13px}
 .msg.u{align-self:flex-end;background:#1B3DF5;color:#fff;border-bottom-right-radius:4px}
 .msg.a{align-self:flex-start;background:#F1F0EC;color:#131419;border-bottom-left-radius:4px}
-.msg.sys{align-self:flex-start;background:none;color:#8A909A;font-size:12.5px;padding:0 4px;font-style:italic}
+.msg.sys{align-self:flex-start;background:none;color:#676D77;font-size:12.5px;padding:0 4px;font-style:italic}
 .msg .who{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;opacity:.6;margin-bottom:3px}
 .maptbl{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;background:#131419;color:#E8E6E0;border-radius:12px;padding:16px 18px;margin:16px 0;line-height:1.9;overflow-x:auto}
-.maptbl .o{color:#F0C674}.maptbl .ar{color:#8A909A}.maptbl .nn{color:#B8E0A8}
+.maptbl .o{color:#F0C674}.maptbl .ar{color:#676D77}.maptbl .nn{color:#B8E0A8}
 .agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:18px 0}
 .agent{border:1px solid var(--line);border-radius:13px;padding-top:15px;padding-bottom:15px;padding-left:16px;padding-right:16px;background:#fff}
 .agent h4{font-size:16.5px;margin:0 0 3px}
@@ -482,7 +483,7 @@
 .mini .minithumb{width:100%;height:150px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line);margin:0 0 14px;display:block}
 
 /* ---------- Accessibility (EAA / WCAG 2.1) ---------- */
-:root{--faint:#6E7580}
+:root{--faint:#666D78}
 *:focus-visible{outline:3px solid #1B3DF5;outline-offset:2px;border-radius:4px}
 .skiplink{position:fixed;left:-9999px;top:10px;z-index:200;background:#131419;color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;font-size:14px}
 .skiplink:focus{left:10px}
@@ -499,22 +500,22 @@ body.a11y-hc .chip,body.a11y-hc .ptag,body.a11y-hc .tag{border:1px solid #6F6D64
 .a11y-btn:hover{background:#1B3DF5}
 .a11y-panel{position:fixed;right:18px;bottom:80px;z-index:120;width:min(300px,calc(100vw - 36px));background:#fff;border:1px solid var(--line2,#D6D4CC);border-radius:16px;padding:16px 16px 14px;box-shadow:0 18px 50px rgba(19,20,25,.18);display:none}
 .a11y-panel.open{display:block}
-.a11y-panel h5{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6E7580;font-family:"Space Grotesk",sans-serif}
+.a11y-panel h5{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#666D78;font-family:"Space Grotesk",sans-serif}
 .a11y-row{margin:10px 0}
 .a11y-row .opts{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
 .a11y-row button{appearance:none;font:inherit;font-size:13.5px;font-weight:600;padding:8px 13px;border-radius:999px;border:1px solid #C9C7BF;background:#fff;color:#2E343E;cursor:pointer}
 .a11y-row button[aria-pressed="true"]{background:#131419;border-color:#131419;color:#fff}
-.a11y-note{font-size:11.5px;color:#6E7580;margin:8px 0 0}
+.a11y-note{font-size:11.5px;color:#666D78;margin:8px 0 0}
 
 .pipe2{display:flex;flex-direction:column;gap:0;margin:20px 0 6px}
 .p2row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:11px 0;border-bottom:1px solid #F1F0EC}
 .p2row:last-child{border-bottom:0}
-.p2lab{flex:0 0 128px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A909A;font-weight:700}
+.p2lab{flex:0 0 128px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#676D77;font-weight:700}
 @media(max-width:700px){.p2lab{flex:0 0 100%;margin-bottom:2px}}
 .cite{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:18px 0;max-width:620px;background:#fff}
 .cite .ans{padding-top:16px;padding-bottom:14px;padding-left:18px;padding-right:18px;font-size:15px;line-height:1.62;color:var(--ink)}
 .cite .srcs{background:#F7F6F2;border-top:1px solid var(--line);padding-top:12px;padding-bottom:14px;padding-left:18px;padding-right:18px}
-.cite .srcs b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8A909A;margin-bottom:8px;font-weight:700}
+.cite .srcs b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#676D77;margin-bottom:8px;font-weight:700}
 .cite .src{font-size:13.5px;color:#585E68;line-height:1.5;padding:7px 0;border-top:1px solid var(--line)}
 .cite .src:first-of-type{border-top:0}
 .cite .src i{font-style:normal;color:#1B3DF5;font-weight:600;margin-right:8px}
@@ -1484,7 +1485,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <p class="lenshint" id="lenshint">Pick one and this page rearranges itself around it.</p>
     </div>
 
-    <div class="matrix"><table id="mx"><thead><tr id="mxhead"></tr></thead><tbody id="mxbody"></tbody></table></div>
+    <div class="matrix" tabindex="0" role="region" aria-label="Skills matrix, scrolls horizontally on narrow screens"><table id="mx"><thead><tr id="mxhead"></tr></thead><tbody id="mxbody"></tbody></table></div>
 
     <div class="tl" id="tl"></div>
 
@@ -1546,7 +1547,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <p class="axis-note" id="axisnote">Rows are competing models of motivation. Read a column downwards to see one drive named in seven vocabularies.</p>
 
-      <div class="matrix-wrap"><div class="matrix-scroll">
+      <div class="matrix-wrap"><div class="matrix-scroll" tabindex="0" role="region" aria-label="Cross-framework matrix, scrolls horizontally">
         <table class="matrix">
           <thead><tr><th scope="col">Layer</th><th scope="col"><span class="dn">01</span>Meaning &amp; Purpose</th><th scope="col"><span class="dn">02</span>Progress &amp; Accomplishment</th><th scope="col"><span class="dn">03</span>Creativity &amp; Feedback</th><th scope="col"><span class="dn">04</span>Ownership &amp; Possession</th><th scope="col"><span class="dn">05</span>Social Influence</th><th scope="col"><span class="dn">06</span>Scarcity &amp; Impatience</th><th scope="col"><span class="dn">07</span>Curiosity &amp; Unpredictability</th><th scope="col"><span class="dn">08</span>Loss &amp; Avoidance</th></tr></thead>
           <tbody id="matrixbody"><tr><th scope="row">McClelland, three needs</th><td>Affiliation</td><td>Power</td><td>Achievement</td><td>Achievement</td><td>Affiliation</td><td>Achievement</td><td>Power</td><td>Power</td></tr><tr><th scope="row">Alderfer, ERG</th><td>Growth · self-realisation</td><td>Relatedness · esteem</td><td>Relatedness · esteem</td><td>Relatedness · esteem</td><td>Relatedness · love</td><td>Existence · safety</td><td>Existence · safety</td><td>Existence · safety &amp; physiological</td></tr><tr><th scope="row">Herzberg, motivator / hygiene</th><td class="mot">Motivator</td><td class="mot">Motivator</td><td class="mot">Motivator</td><td class="mot">Motivator</td><td class="hyg">Hygiene</td><td class="hyg">Hygiene</td><td class="hyg">Hygiene</td><td class="hyg">Hygiene</td></tr><tr><th scope="row">Sirgy</th><td>Esteem</td><td>Actualisation</td><td>Aesthetics · knowledge</td><td>Esteem · aesthetics</td><td>Social</td><td>Safety (satisfaction)</td><td>Safety (satisfaction)</td><td>Safety (satisfaction)</td></tr><tr><th scope="row">Maslow</th><td>Self-actualisation</td><td>Self-actualisation · esteem</td><td>Esteem</td><td>Esteem</td><td>Social</td><td>Safety</td><td>Safety</td><td>Safety · physiological</td></tr><tr><th scope="row">Max-Neef, matrix of needs</th><td>Freedom</td><td>Freedom · identity</td><td>Creation · idleness</td><td>Idleness · participation</td><td>Participation · affection</td><td>Participation · subsistence</td><td>Protection · understanding</td><td>Protection · subsistence</td></tr><tr><th scope="row">Marczewski, player types</th><td>Philanthropists</td><td>Achievers</td><td>Free Spirits</td><td>Consumers</td><td>Socializers</td><td>Self Seekers</td><td>Exploiters</td><td>Networkers</td></tr></tbody>

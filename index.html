@@ -311,7 +311,7 @@
   .rfoot{display:flex;justify-content:space-between;gap:14px;margin-top:46px;padding-top:22px;border-top:1px solid var(--line)}
   .rfoot button{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:14.5px;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);border-radius:100px;padding:11px 20px;cursor:pointer;transition:all .2s var(--ease)}
   .rfoot button:hover:not(:disabled){border-color:var(--accent);color:var(--accent-deep)}
-  .rfoot button:disabled{opacity:.35;cursor:default}
+  .rfoot button:disabled{opacity:.5;cursor:default}
   @media(max-width:900px){.reader{grid-template-columns:1fr;gap:24px}.rnav{position:static;max-height:none;border-bottom:1px solid var(--line);padding-bottom:14px}.rnav button{display:inline-block;width:auto;border-left:none;border-bottom:2px solid transparent}.rnav button[aria-current="true"]{border-left:none;border-bottom-color:var(--accent)}}
 
   .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -369,15 +369,28 @@
 .matrix th.rh{text-align:left;font-weight:600;white-space:nowrap;cursor:pointer;color:#131419;padding-right:14px}
 .matrix th.ch{font-weight:600;font-size:12px;letter-spacing:.03em;color:#585E68;cursor:pointer;vertical-align:bottom}
 .matrix th.rh:hover,.matrix th.ch:hover{color:#1B3DF5}
-.matrix tr.dim th.rh,.matrix tr.dim td{opacity:.24}
+.matrix tr.dim th.rh{color:#6A717C}
+.matrix tr.dim td{color:#6A717C}
+.matrix tr.dim td.mot,.matrix tr.dim td.hyg{color:#6A717C;background:#F6F5F2;font-weight:400}
+.matrix tr.dim td .dot{opacity:.5}
 .matrix td.hot .dot{background:#1B3DF5;transform:scale(1.35)}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#C3C0B8;transition:.18s}
 .dot.on{background:#131419}
 .dot.faint{background:#E0DED7}
 
 .tl{margin-top:46px;border-top:1px solid var(--line);padding-top:8px}
-.tlitem{padding:22px 0;border-bottom:1px solid var(--line);transition:opacity .2s}
-.tlitem.dim{opacity:.3}
+.tlitem{padding:22px 0;border-bottom:1px solid var(--line);transition:color .2s,border-color .2s}
+/* Entries that do not match the selected lens recede, but stay readable.
+   Opacity dimming took body text to 1.96:1, far under the 4.5:1 minimum. */
+.tlitem.dim{opacity:1}
+.tlitem.dim .tlwhen{color:#6C727C}
+.tlitem.dim h3{color:#4C525C;font-weight:600}
+.tlitem.dim .tlorg{color:#6C727C}
+.tlitem.dim li{color:#5B6169}
+.tlitem.dim li.hit{font-weight:400}
+.tlitem.dim li.hit::marker{color:#9AA0A8}
+.tlitem.dim .tag{background:#F4F3EF;color:#6A717C}
+.tlitem.dim .tag.on{background:#8A909A;color:#fff}
 .tlwhen{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:#1B3DF5;font-weight:700;margin:0 0 5px}
 .tlitem h3{font-size:19px;margin:0 0 3px}
 .tlorg{font-size:14.5px;color:#8A909A;margin:0 0 12px}
@@ -519,6 +532,8 @@ body.a11y-hc .chip,body.a11y-hc .ptag,body.a11y-hc .tag{border:1px solid #6F6D64
 .shotwide img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line);box-shadow:0 14px 40px rgba(19,20,25,.13)}
 .shotwide figcaption{font-size:13.5px;color:var(--muted);margin-top:9px;line-height:1.5}
 .shotwide{margin:20px 0}
+body.a11y-hc .tlitem.dim .tlwhen,body.a11y-hc .tlitem.dim h3,body.a11y-hc .tlitem.dim .tlorg,body.a11y-hc .tlitem.dim li,body.a11y-hc .matrix tr.dim th.rh{color:#131419}
+body.a11y-hc .matrix tr.dim td{color:#131419}
 </style>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23131419'/%3E%3Ctext x='50' y='50' font-family='Helvetica,Arial,sans-serif' font-size='52' font-weight='700' fill='%23FAFAF8' text-anchor='middle' dominant-baseline='central'%3ER%3C/text%3E%3Ccircle cx='78' cy='30' r='9' fill='%231B3DF5'/%3E%3C/svg%3E"/>

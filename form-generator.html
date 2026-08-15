@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Form Generator · Roberta Santiago</title>
+<meta name="description" content="A field specification tool that turns a form table into working HTML, a JSON spec, SQLite DDL and a MongoDB validator. Built by Roberta Santiago.">
+<style>
+  :root{
+    --bg:#F7F6F2; --surface:#FFFFFF; --ink:#14151A; --mid:#4A4F58; --faint:#666C75;
+    --line:#E2E0D8; --accent:#1B3DF5; --green:#1E6B41; --amber:#8A6400; --code:#F4F3EE;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    overflow-wrap:break-word}
+  .wrap{max-width:1240px;margin:0 auto;padding:34px 20px 90px}
+  a{color:var(--accent)}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+  .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  header{margin:0 0 26px;max-width:78ch}
+  .eyebrow{margin:0 0 8px;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);font-weight:650}
+  h1{margin:0 0 12px;font-size:clamp(28px,4.6vw,42px);line-height:1.12;letter-spacing:-.02em;font-weight:700}
+  .lede{margin:0 0 10px;font-size:17.5px;color:var(--mid)}
+  .back{display:inline-block;margin:0 0 20px;font-size:14.5px;text-decoration:none}
+  .back:hover{text-decoration:underline}
+
+  h2{margin:0 0 4px;font-size:19px;font-weight:660;letter-spacing:-.01em}
+  .hint{margin:0 0 14px;font-size:14px;color:var(--faint)}
+
+  .cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+  @media(max-width:1000px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+
+  .bar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+  button{font:inherit;font-size:14px;font-weight:600;border-radius:9px;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink);padding:8px 13px;cursor:pointer}
+  button:hover{border-color:#BDBAB0}
+  button.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  button.primary:hover{background:#000}
+  button.ghost{background:transparent}
+  button.danger{color:#9A2C2C;border-color:#E7C2C2;background:#FDF4F4;padding:6px 10px}
+
+  .field{border:1px solid var(--line);border-radius:11px;padding:13px 14px;margin:0 0 11px;background:#FCFCFA}
+  .fhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
+  .fid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--faint);letter-spacing:.02em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:9px}
+  label{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:650;margin:0 0 3px}
+  input[type=text],input[type=number],select{width:100%;font:inherit;font-size:14px;padding:7px 9px;
+    border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);min-width:0}
+  .chk{display:flex;align-items:center;gap:7px;margin-top:19px}
+  .chk input{width:17px;height:17px;accent-color:var(--accent)}
+  .chk span{font-size:13.5px;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:500}
+
+  .tabs{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .tabs button{border:1px solid transparent;background:transparent;padding:7px 11px;color:var(--mid)}
+  .tabs button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  pre{margin:0;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px;
+    overflow:auto;max-height:460px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.55;color:#1D2026}
+  .prev{border:1px solid var(--line);border-radius:10px;padding:16px;background:#fff;max-height:460px;overflow:auto}
+  .prev .row{margin:0 0 13px}
+  .prev label{text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--ink);font-weight:600;margin-bottom:4px}
+  .prev .req{color:#9A2C2C}
+  .prev input,.prev select,.prev textarea{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px}
+  .prev .ctl{display:inline-block;margin:0 7px 7px 0}
+  .prev .ctl input{width:auto;padding:8px 15px;background:var(--ink);color:#fff;border-color:var(--ink);cursor:pointer;font-weight:600}
+  .prev .ctl input.sec{background:#fff;color:var(--ink);border-color:var(--line)}
+  .prev .note{font-size:12.5px;color:var(--faint);margin-top:3px}
+
+  .note-box{margin:16px 0 0;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:#FBFBF8;font-size:14px;color:var(--mid)}
+  .note-box b{color:var(--ink)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:2px 7px;border-radius:999px;background:#EEF1FF;color:var(--accent);margin-left:6px}
+  .tag.ctrl{background:#FCF7EA;color:var(--amber)}
+  footer{margin:44px 0 0;padding-top:18px;border-top:1px solid var(--line);font-size:14px;color:var(--faint);max-width:78ch}
+
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#101114;--surface:#191B20;--ink:#F1F1EE;--mid:#B4B9C3;--faint:#9AA0AB;
+          --line:#2D3037;--accent:#8FA5FF;--green:#6FD79B;--amber:#E0B85F;--code:#14161A}
+    .field{background:#15171B}
+    input[type=text],input[type=number],select,.prev input,.prev select,.prev textarea{background:#0F1114;color:var(--ink)}
+    .prev{background:#15171B}
+    button.primary{background:#F1F1EE;color:#111;border-color:#F1F1EE}
+    .tabs button[aria-selected="true"]{background:#F1F1EE;color:#111;border-color:#F1F1EE}
+    button.danger{color:#F09393;border-color:#4C2C2C;background:#241717}
+    .note-box{background:#15171B}
+    .tag{background:#1B2140;color:#A8B8FF}
+    .tag.ctrl{background:#332A11;color:#E9C877}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">&larr; Portfolio</a>
+
+<header>
+  <p class="eyebrow">Tool &middot; built 2022, rebuilt 2026</p>
+  <h1>Form generator</h1>
+  <p class="lede">I built this in 2022 to stop arguing about form fields in comments. You describe every field once, with its type, its limits and where its data goes, and the same description produces the form, the schema and the contract engineering builds against.</p>
+  <p class="lede" style="font-size:16px">Add fields on the left. The working form, the spec, the SQLite table and the MongoDB validator all come out on the right, and change as you type.</p>
+</header>
+
+<div class="cols">
+
+  <section class="panel" aria-labelledby="h-fields">
+    <h2 id="h-fields">Fields</h2>
+    <p class="hint">Every column here is a decision someone would otherwise make silently in code.</p>
+    <div class="bar">
+      <button type="button" class="primary" id="add">Add field</button>
+      <button type="button" class="ghost" id="sample">Load the sample form</button>
+      <button type="button" class="ghost" id="clear">Clear all</button>
+      <button type="button" class="ghost" id="csv">Export CSV</button>
+    </div>
+    <div class="bar" style="margin-bottom:14px">
+      <div style="flex:1;min-width:180px">
+        <label for="formname">Form name</label>
+        <input type="text" id="formname" value="Form_Client">
+      </div>
+      <div style="flex:1;min-width:180px">
+        <label for="screen">Figma screen</label>
+        <input type="text" id="screen" value="figma_screen">
+      </div>
+    </div>
+    <div id="list"></div>
+    <p class="hint" id="empty" hidden>No fields yet. Add one, or load the sample.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-out">
+    <h2 id="h-out">Output</h2>
+    <p class="hint">Four views of the same specification.</p>
+    <div class="tabs" role="tablist" aria-label="Output format">
+      <button type="button" role="tab" id="t-prev" aria-selected="true" aria-controls="p-prev">Form</button>
+      <button type="button" role="tab" id="t-html" aria-selected="false" aria-controls="p-html">HTML</button>
+      <button type="button" role="tab" id="t-json" aria-selected="false" aria-controls="p-json">JSON spec</button>
+      <button type="button" role="tab" id="t-sql" aria-selected="false" aria-controls="p-sql">SQLite</button>
+      <button type="button" role="tab" id="t-mongo" aria-selected="false" aria-controls="p-mongo">MongoDB</button>
+    </div>
+    <div id="p-prev" role="tabpanel" aria-labelledby="t-prev"><div class="prev" id="preview"></div></div>
+    <div id="p-html" role="tabpanel" aria-labelledby="t-html" hidden><pre id="out-html"></pre></div>
+    <div id="p-json" role="tabpanel" aria-labelledby="t-json" hidden><pre id="out-json"></pre></div>
+    <div id="p-sql" role="tabpanel" aria-labelledby="t-sql" hidden><pre id="out-sql"></pre></div>
+    <div id="p-mongo" role="tabpanel" aria-labelledby="t-mongo" hidden><pre id="out-mongo"></pre></div>
+    <div class="bar" style="margin:12px 0 0"><button type="button" id="copy">Copy this view</button><span id="copied" class="hint" style="margin:8px 0 0" role="status"></span></div>
+
+    <div class="note-box">
+      <b>Why five of the types get no column.</b> Submit, Reset, Clear, Cancel and Return are controls, not data. They belong in the form and nowhere in the database. Separating those two lists is most of the value of writing the table down at all.
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  The original is a spreadsheet I filled in for a project in 2022, one row per field, with the 24 input types enumerated and an example value for each. This page is that spreadsheet with the generation step attached. Built by Roberta Santiago, <a href="index.html">portfolio</a>.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var TYPES = [
+    {t:"Word",     el:"text",           sql:"TEXT",    bson:"string", ex:"User"},
+    {t:"Week",     el:"week",           sql:"TEXT",    bson:"string", ex:"mon"},
+    {t:"URL",      el:"url",            sql:"TEXT",    bson:"string", ex:"http://"},
+    {t:"Time",     el:"time",           sql:"TEXT",    bson:"string", ex:"00:00:00"},
+    {t:"Text",     el:"text",           sql:"TEXT",    bson:"string", ex:"text"},
+    {t:"Tel",      el:"tel",            sql:"TEXT",    bson:"string", ex:"51(00)9999-9999"},
+    {t:"Submit",   el:"submit",         sql:null,      bson:null,     ex:"boolean"},
+    {t:"Search",   el:"search",         sql:"TEXT",    bson:"string", ex:"consult database"},
+    {t:"Return",   el:"button",         sql:null,      bson:null,     ex:"last version"},
+    {t:"Reset",    el:"reset",          sql:null,      bson:null,     ex:"reset"},
+    {t:"Range",    el:"range",          sql:"REAL",    bson:"double", ex:"value1 - value2"},
+    {t:"Radio",    el:"radio",          sql:"TEXT",    bson:"string", ex:"boolean"},
+    {t:"Number",   el:"number",         sql:"INTEGER", bson:"int",    ex:"1"},
+    {t:"Month",    el:"month",          sql:"TEXT",    bson:"string", ex:"oct"},
+    {t:"Password", el:"password",       sql:"TEXT",    bson:"string", ex:"Aa@1Aa@1"},
+    {t:"Image",    el:"file",           sql:"TEXT",    bson:"string", ex:".png/.jpg/.gif/.bmp"},
+    {t:"Hidden",   el:"hidden",         sql:"TEXT",    bson:"string", ex:"boolean"},
+    {t:"File",     el:"file",           sql:"TEXT",    bson:"string", ex:"filetype"},
+    {t:"E-mail",   el:"email",          sql:"TEXT",    bson:"string", ex:"user@domain.tld"},
+    {t:"Datetime Local", el:"datetime-local", sql:"TEXT", bson:"date", ex:"14/04/4665"},
+    {t:"Date",     el:"date",           sql:"TEXT",    bson:"date",   ex:"14/04/4665"},
+    {t:"Clear",    el:"button",         sql:null,      bson:null,     ex:"delete"},
+    {t:"Checkbox", el:"checkbox",       sql:"INTEGER", bson:"bool",   ex:"boolean"},
+    {t:"Cancel",   el:"button",         sql:null,      bson:null,     ex:"cancel"}
+  ];
+  var BY = {}; TYPES.forEach(function(x){BY[x.t]=x;});
+  var CONTROL = {Submit:1,Reset:1,Clear:1,Cancel:1,Return:1};
+
+  var SAMPLE = [
+    {type:"Word",   name:"full_name",  len:"120", seq:"1", req:true,  label:"Full name",   def:"",       min:"2",  max:"120", ep:"/api/clients"},
+    {type:"E-mail", name:"email",      len:"180", seq:"2", req:true,  label:"Email",       def:"",       min:"",   max:"",    ep:"/api/clients"},
+    {type:"Tel",    name:"phone",      len:"20",  seq:"3", req:false, label:"Phone",       def:"",       min:"",   max:"",    ep:"/api/clients"},
+    {type:"Date",   name:"born_on",    len:"10",  seq:"4", req:false, label:"Date of birth",def:"",      min:"",   max:"",    ep:"/api/clients"},
+    {type:"Number", name:"seats",      len:"3",   seq:"5", req:true,  label:"Seats",       def:"1",      min:"1",  max:"250", ep:"/api/clients"},
+    {type:"Checkbox",name:"is_active", len:"1",   seq:"6", req:false, label:"Active",      def:"1",      min:"",   max:"",    ep:"/api/clients"},
+    {type:"Submit", name:"",           len:"",    seq:"7", req:false, label:"Save client", def:"",       min:"",   max:"",    ep:"/api/clients"},
+    {type:"Cancel", name:"",           len:"",    seq:"8", req:false, label:"Cancel",      def:"",       min:"",   max:"",    ep:""}
+  ];
+
+  var rows = [];
+  var seq = 0;
+  var $ = function(id){return document.getElementById(id);};
+
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+  function pad(n){var s=String(n);while(s.length<8)s="0"+s;return "#"+s;}
+  function snake(s){
+    s=String(s||"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
+    return s||"field";
+  }
+
+  function makeRow(d){
+    seq++;
+    return {
+      key: seq,
+      type: d && d.type || "Text",
+      name: d && d.name || "",
+      len:  d && d.len  || "",
+      seq:  d && d.seq  || String(rows.length+1),
+      req: !!(d && d.req),
+      label:d && d.label|| "",
+      def:  d && d.def  || "",
+      min:  d && d.min  || "",
+      max:  d && d.max  || "",
+      ep:   d && d.ep   || ""
+    };
+  }
+
+  function renderList(){
+    var list = $("list");
+    list.innerHTML = "";
+    $("empty").hidden = rows.length > 0;
+    rows.forEach(function(r, i){
+      var isCtl = !!CONTROL[r.type];
+      var box = document.createElement("div");
+      box.className = "field";
+      var opts = TYPES.map(function(x){
+        return '<option value="'+esc(x.t)+'"'+(x.t===r.type?" selected":"")+">"+esc(x.t)+"</option>";
+      }).join("");
+      box.innerHTML =
+        '<div class="fhead"><span class="fid">'+pad(i+1)+
+          (isCtl?'<span class="tag ctrl">control</span>':'<span class="tag">'+esc(BY[r.type].sql||"")+'</span>')+
+        '</span>'+
+        '<button type="button" class="danger" data-del="'+r.key+'">Remove</button></div>'+
+        '<div class="grid">'+
+          '<div><label for="f'+r.key+'-type">Type</label><select id="f'+r.key+'-type" data-k="type" data-key="'+r.key+'">'+opts+'</select></div>'+
+          '<div><label for="f'+r.key+'-label">Label</label><input type="text" id="f'+r.key+'-label" data-k="label" data-key="'+r.key+'" value="'+esc(r.label)+'"></div>'+
+          (isCtl?"":'<div><label for="f'+r.key+'-name">Data name</label><input type="text" id="f'+r.key+'-name" data-k="name" data-key="'+r.key+'" value="'+esc(r.name)+'" placeholder="'+esc(snake(r.label))+'"></div>')+
+          (isCtl?"":'<div><label for="f'+r.key+'-len">Length</label><input type="text" id="f'+r.key+'-len" data-k="len" data-key="'+r.key+'" value="'+esc(r.len)+'"></div>')+
+          '<div><label for="f'+r.key+'-seq">Sequence</label><input type="text" id="f'+r.key+'-seq" data-k="seq" data-key="'+r.key+'" value="'+esc(r.seq)+'"></div>'+
+          '<div><label for="f'+r.key+'-def">Default</label><input type="text" id="f'+r.key+'-def" data-k="def" data-key="'+r.key+'" value="'+esc(r.def)+'" placeholder="'+esc(BY[r.type].ex)+'"></div>'+
+          (isCtl?"":'<div><label for="f'+r.key+'-min">Min</label><input type="text" id="f'+r.key+'-min" data-k="min" data-key="'+r.key+'" value="'+esc(r.min)+'"></div>')+
+          (isCtl?"":'<div><label for="f'+r.key+'-max">Max</label><input type="text" id="f'+r.key+'-max" data-k="max" data-key="'+r.key+'" value="'+esc(r.max)+'"></div>')+
+          '<div><label for="f'+r.key+'-ep">Endpoint</label><input type="text" id="f'+r.key+'-ep" data-k="ep" data-key="'+r.key+'" value="'+esc(r.ep)+'" placeholder="/api/..."></div>'+
+          (isCtl?"":'<div class="chk"><input type="checkbox" id="f'+r.key+'-req" data-k="req" data-key="'+r.key+'"'+(r.req?" checked":"")+'><label for="f'+r.key+'-req" style="margin:0"><span>Required</span></label></div>')+
+        '</div>';
+      list.appendChild(box);
+    });
+  }
+
+  function find(k){for(var i=0;i<rows.length;i++){if(rows[i].key===+k)return rows[i];}return null;}
+
+  document.addEventListener("input", function(e){
+    var t=e.target, key=t.getAttribute("data-key"), k=t.getAttribute("data-k");
+    if(key&&k){var r=find(key); if(r){r[k]= k==="req"? t.checked : t.value; build(); }}
+    if(t.id==="formname"||t.id==="screen") build();
+  });
+  document.addEventListener("change", function(e){
+    var t=e.target, key=t.getAttribute("data-key"), k=t.getAttribute("data-k");
+    if(key&&k==="type"){var r=find(key); if(r){r.type=t.value; renderList(); build();}}
+  });
+  document.addEventListener("click", function(e){
+    var d=e.target.getAttribute && e.target.getAttribute("data-del");
+    if(d){rows=rows.filter(function(r){return r.key!==+d;}); renderList(); build();}
+  });
+
+  $("add").addEventListener("click", function(){rows.push(makeRow()); renderList(); build();});
+  $("clear").addEventListener("click", function(){rows=[]; renderList(); build();});
+  $("sample").addEventListener("click", function(){rows=SAMPLE.map(makeRow); renderList(); build();});
+
+  var tabs=[["t-prev","p-prev"],["t-html","p-html"],["t-json","p-json"],["t-sql","p-sql"],["t-mongo","p-mongo"]];
+  tabs.forEach(function(pair){
+    $(pair[0]).addEventListener("click", function(){
+      tabs.forEach(function(p){
+        var on = p[0]===pair[0];
+        $(p[0]).setAttribute("aria-selected", on?"true":"false");
+        $(p[1]).hidden = !on;
+      });
+      $("copied").textContent="";
+    });
+  });
+
+  $("copy").addEventListener("click", function(){
+    var sel = tabs.filter(function(p){return $(p[0]).getAttribute("aria-selected")==="true";})[0];
+    var el = $(sel[1]).querySelector("pre");
+    var txt = el ? el.textContent : "The form view is interactive, switch to HTML to copy the markup.";
+    if(navigator.clipboard && el){ navigator.clipboard.writeText(txt).then(function(){$("copied").textContent="Copied.";}); }
+    else { $("copied").textContent = el ? "Select the text and copy it." : txt; }
+  });
+
+  $("csv").addEventListener("click", function(){
+    var head="ID,Type,Data_Name,Data_Lenght,Sequence,Required,Label,Default_Value,Min_Value,Max_Value,EndPoint";
+    var body=rows.map(function(r,i){
+      return [pad(i+1),r.type,r.name,r.len,r.seq,r.req?"TRUE":"FALSE",r.label,r.def,r.min,r.max,r.ep]
+        .map(function(v){v=String(v==null?"":v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");
+    });
+    var csv=head+"\n"+body.join("\n");
+    var a=document.createElement("a");
+    a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
+    a.download=($("formname").value||"form")+".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  function ordered(){
+    return rows.slice().sort(function(a,b){
+      var x=parseFloat(a.seq), y=parseFloat(b.seq);
+      if(isNaN(x)&&isNaN(y)) return 0; if(isNaN(x)) return 1; if(isNaN(y)) return -1;
+      return x-y;
+    });
+  }
+  function nameOf(r){return snake(r.name||r.label);}
+
+  function buildPreview(rs){
+    var box=$("preview");
+    box.innerHTML="";
+    if(!rs.length){box.innerHTML='<p class="hint" style="margin:0">Nothing to preview yet.</p>';return;}
+    var ctlWrap=document.createElement("div");
+    rs.forEach(function(r){
+      var meta=BY[r.type], id="pv-"+r.key;
+      if(CONTROL[r.type]){
+        var w=document.createElement("span"); w.className="ctl";
+        var b=document.createElement("input");
+        b.type = (meta.el==="button")?"button":meta.el;
+        b.value = r.label||r.type;
+        if(r.type!=="Submit") b.className="sec";
+        w.appendChild(b); ctlWrap.appendChild(w); return;
+      }
+      var row=document.createElement("div"); row.className="row";
+      var lab=document.createElement("label"); lab.setAttribute("for",id);
+      lab.textContent=r.label||nameOf(r);
+      if(r.req){var s=document.createElement("span"); s.className="req"; s.textContent=" *"; lab.appendChild(s);}
+      row.appendChild(lab);
+      var inp=document.createElement("input");
+      inp.type = meta.el; inp.id=id; inp.name=nameOf(r);
+      if(r.def && meta.el!=="file") inp.value=r.def;
+      if(r.req) inp.required=true;
+      if(r.len && (meta.el==="text"||meta.el==="search"||meta.el==="tel"||meta.el==="password"||meta.el==="email"||meta.el==="url")) inp.maxLength=r.len;
+      if(r.min!=="") inp.min=r.min;
+      if(r.max!=="") inp.max=r.max;
+      if(meta.el==="hidden"){inp.type="text"; inp.readOnly=true;}
+      row.appendChild(inp);
+      if(r.ep){var n=document.createElement("p"); n.className="note"; n.textContent="→ "+r.ep; row.appendChild(n);}
+      box.appendChild(row);
+    });
+    if(ctlWrap.children.length) box.appendChild(ctlWrap);
+  }
+
+  function buildHTML(rs){
+    var ep = (rs.filter(function(r){return r.ep;})[0]||{}).ep || "/api/endpoint";
+    var L=['<form name="'+esc($("formname").value)+'" action="'+esc(ep)+'" method="post">'];
+    rs.forEach(function(r){
+      var m=BY[r.type], n=nameOf(r);
+      if(CONTROL[r.type]){
+        L.push('  <input type="'+(m.el==="button"?"button":m.el)+'" value="'+esc(r.label||r.type)+'">');
+        return;
+      }
+      if(m.el==="hidden"){L.push('  <input type="hidden" name="'+n+'" value="'+esc(r.def)+'">');return;}
+      var a=['type="'+m.el+'"','id="'+n+'"','name="'+n+'"'];
+      if(r.req) a.push("required");
+      if(r.def) a.push('value="'+esc(r.def)+'"');
+      if(r.len && /^(text|search|tel|password|email|url)$/.test(m.el)) a.push('maxlength="'+esc(r.len)+'"');
+      if(r.min!=="") a.push('min="'+esc(r.min)+'"');
+      if(r.max!=="") a.push('max="'+esc(r.max)+'"');
+      L.push('  <label for="'+n+'">'+esc(r.label||n)+(r.req?" *":"")+"</label>");
+      L.push("  <input "+a.join(" ")+">");
+    });
+    L.push("</form>");
+    return L.join("\n");
+  }
+
+  function buildJSON(rs){
+    return JSON.stringify({
+      form: $("formname").value,
+      screen: $("screen").value,
+      fields: rs.map(function(r,i){
+        var o={id:pad(i+1), type:r.type, control:!!CONTROL[r.type], label:r.label, sequence:r.seq};
+        if(!CONTROL[r.type]){
+          o.data_name=nameOf(r); o.length=r.len; o.required=!!r.req;
+          o.default_value=r.def; o.min_value=r.min; o.max_value=r.max;
+        }
+        o.endpoint=r.ep;
+        return o;
+      })
+    }, null, 2);
+  }
+
+  function buildSQL(rs){
+    var table=snake($("formname").value);
+    var cols=rs.filter(function(r){return !CONTROL[r.type];});
+    if(!rs.length) return "-- No fields yet.";
+    if(!cols.length) return "-- Every field on this form is a control, so there is no table to create.";
+    var L=["CREATE TABLE "+table+" (","  id INTEGER PRIMARY KEY AUTOINCREMENT,"];
+    var checks=[];
+    cols.forEach(function(r,i){
+      var m=BY[r.type], n=nameOf(r), t=m.sql;
+      if(t==="TEXT" && r.len) t="VARCHAR("+r.len+")";
+      var line="  "+n+" "+t;
+      if(r.req) line+=" NOT NULL";
+      if(r.def!=="" ) line += " DEFAULT "+(m.sql==="TEXT"?"'"+String(r.def).replace(/'/g,"''")+"'":r.def);
+      L.push(line + (i<cols.length-1?",":""));
+      if(m.sql!=="TEXT"){
+        if(r.min!=="") checks.push("  CHECK ("+n+" >= "+r.min+")");
+        if(r.max!=="") checks.push("  CHECK ("+n+" <= "+r.max+")");
+      } else if(r.min!=="" ){
+        checks.push("  CHECK (length("+n+") >= "+r.min+")");
+      }
+      if(r.type==="Checkbox") checks.push("  CHECK ("+n+" IN (0,1))");
+    });
+    if(checks.length){ L[L.length-1]=L[L.length-1]+","; L=L.concat(checks.map(function(c,i){return c+(i<checks.length-1?",":"");})); }
+    L.push(");");
+    L.push("");
+    L.push("-- Controls with no column: "+ (rs.filter(function(r){return CONTROL[r.type];}).map(function(r){return r.label||r.type;}).join(", ")||"none"));
+    return L.join("\n");
+  }
+
+  function buildMongo(rs){
+    var coll=snake($("formname").value);
+    var cols=rs.filter(function(r){return !CONTROL[r.type];});
+    if(!rs.length) return "// No fields yet.";
+    if(!cols.length) return "// Every field on this form is a control, so there is nothing to store.";
+    var props={}, req=[];
+    cols.forEach(function(r){
+      var m=BY[r.type], n=nameOf(r), p={bsonType:m.bson};
+      if(r.label) p.description=r.label;
+      if(m.bson==="string" && r.len) p.maxLength=parseInt(r.len,10);
+      if(m.bson==="string" && r.min!=="") p.minLength=parseInt(r.min,10);
+      if((m.bson==="int"||m.bson==="double")){
+        if(r.min!=="") p.minimum=parseFloat(r.min);
+        if(r.max!=="") p.maximum=parseFloat(r.max);
+      }
+      if(r.type==="E-mail") p.pattern="^.+@.+\\\\..+$";
+      props[n]=p;
+      if(r.req) req.push(n);
+    });
+    var schema={$jsonSchema:{bsonType:"object", required:req, properties:props}};
+    return "db.createCollection(\""+coll+"\", {\n  validator: "+JSON.stringify(schema,null,2).split("\n").join("\n  ")+"\n});";
+  }
+
+  function build(){
+    var rs=ordered();
+    buildPreview(rs);
+    $("out-html").textContent=buildHTML(rs);
+    $("out-json").textContent=buildJSON(rs);
+    $("out-sql").textContent=buildSQL(rs);
+    $("out-mongo").textContent=buildMongo(rs);
+    $("copied").textContent="";
+  }
+
+  rows = SAMPLE.map(makeRow);
+  renderList();
+  build();
+})();
+</script>
+</body>
+</html>
